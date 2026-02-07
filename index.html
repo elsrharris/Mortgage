@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,8 @@
 
   <!-- Supabase client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Chart.js (MUST be before script.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -18,8 +21,8 @@
         <label for="person">Who:</label>
         <select id="person" required>
           <option value="">Select</option>
-          <option value="E">Els</option>
-          <option value="Z">Zee</option>
+          <option value="E">E</option>
+          <option value="Z">Z</option>
         </select>
       </div>
 
@@ -49,17 +52,18 @@
 
     <section id="summary">
       <h2>Summary</h2>
+      <div id="totals">
+        <p><strong>E Total:</strong> £<span id="totalE">0</span></p>
+        <p><strong>Z Total:</strong> £<span id="totalZ">0</span></p>
+        <p><strong>Ownership Split:</strong> <span id="ownership">50% / 50%</span></p>
+      </div>
 
+      <!-- Pie chart under summary -->
       <div class="chart-wrap">
         <div id="chartCard" class="chart-card" title="Click to expand">
-        <canvas id="ownershipChart" aria-label="Ownership pie chart" role="img"></canvas>
-      </div>
-    </div>
-      
-      <div id="totals">
-        <p><strong>Els Total:</strong> £<span id="totalE">0</span></p>
-        <p><strong>Zee Total:</strong> £<span id="totalZ">0</span></p>
-        <p><strong>Ownership Split:</strong> <span id="ownership">50% / 50%</span></p>
+          <!-- Explicit width/height prevents “invisible” chart due to zero-height canvas -->
+          <canvas id="ownershipChart" width="320" height="220" aria-label="Ownership pie chart" role="img"></canvas>
+        </div>
       </div>
     </section>
 
@@ -80,7 +84,7 @@
     </section>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- Your app logic (MUST be after Chart.js + Supabase) -->
   <script src="script.js"></script>
 </body>
 </html>
