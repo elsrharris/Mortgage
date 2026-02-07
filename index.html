@@ -49,9 +49,16 @@
 
     <section id="summary">
       <h2>Summary</h2>
+
+      <div class="chart-wrap">
+        <div id="chartCard" class="chart-card" title="Click to expand">
+        <canvas id="ownershipChart" aria-label="Ownership pie chart" role="img"></canvas>
+      </div>
+    </div>
+      
       <div id="totals">
-        <p><strong>E Total:</strong> £<span id="totalE">0</span></p>
-        <p><strong>Z Total:</strong> £<span id="totalZ">0</span></p>
+        <p><strong>Els Total:</strong> £<span id="totalE">0</span></p>
+        <p><strong>Zee Total:</strong> £<span id="totalZ">0</span></p>
         <p><strong>Ownership Split:</strong> <span id="ownership">50% / 50%</span></p>
       </div>
     </section>
@@ -73,6 +80,7 @@
     </section>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
