@@ -242,20 +242,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   await loadPayments();
-await loadSettings();
-recalcFromForm();
+  await loadSettings();
+  recalcFromForm();
 
-// Realtime updates: re-run calculations when payments change
-supabase
-  .channel("payments-changes")
-  .on(
-    "postgres_changes",
-    { event: "*", schema: "public", table: "payments" },
-    async () => {
+    // Recalculate whenever the page/tab regains focus
+  document.addEventListener("visibilitychange", async () => {
+    if (!document.hidden) {
       await loadPayments();
       recalcFromForm();
     }
-  )
-  .subscribe();
+  });
+
+  window.addEventListener("focus", async () => {
+  await loadPayments();
+  recalcFromForm();
+});
+
+
 
 });
