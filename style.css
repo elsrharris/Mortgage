@@ -82,3 +82,38 @@ hr {
 #totals p {
   margin: 0.3rem 0;
 }
+
+
+.chart-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.chart-card {
+  width: 320px;
+  height: 220px;
+  padding: 1rem;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.chart-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 18px rgba(0,0,0,0.5);
+}
+
+.chart-card.expanded {
+  transform: scale(1.25);
+  z-index: 10;
+}
+
+.chart-card canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
