@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mortgage Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🏠 Mortgage Tracker</h1>
+
+    <form id="payment-form">
+      <div class="form-group">
+        <label for="person">Who:</label>
+        <select id="person" required>
+          <option value="">Select</option>
+          <option value="E">E</option>
+          <option value="Z">Z</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="type">Payment Type:</label>
+        <select id="type" required>
+          <option value="deposit">Deposit</option>
+          <option value="repayment">Repayment</option>
+          <option value="overpayment">Overpayment</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount (£):</label>
+        <input type="number" id="amount" step="0.01" required />
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" />
+      </div>
+
+      <button type="submit">Add Payment</button>
+    </form>
+
+    <hr />
+
+    <section id="summary">
+      <h2>Summary</h2>
+      <div id="totals">
+        <p><strong>E Total:</strong> £<span id="totalE">0</span></p>
+        <p><strong>Z Total:</strong> £<span id="totalZ">0</span></p>
+        <p><strong>Ownership Split:</strong> <span id="ownership">50% / 50%</span></p>
+      </div>
+    </section>
+
+    <section id="history">
+      <h2>Payment History</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Person</th>
+            <th>Type</th>
+            <th>Amount (£)</th>
+          </tr>
+        </thead>
+        <tbody id="payment-list"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
