@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mortgage Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📉 Mortgage Dashboard</h1>
+
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Payments</a>
+      <a href="mortgage.html" class="nav-link active">Mortgage</a>
+    </nav>
+
+    <section>
+      <h2>Mortgage Settings</h2>
+
+      <form id="settings-form" class="settings-grid">
+        <div class="form-group">
+          <label for="principal">Original loan (£)</label>
+          <input type="number" id="principal" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+          <label for="start_date">Start date</label>
+          <input type="date" id="start_date" required />
+        </div>
+
+        <div class="form-group">
+          <label for="term_years">Term (years)</label>
+          <input type="number" id="term_years" step="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="annual_rate">Interest rate (% APR)</label>
+          <input type="number" id="annual_rate" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+          <label for="monthly_payment">Monthly payment (£) (optional)</label>
+          <input type="number" id="monthly_payment" step="0.01" placeholder="Leave blank to auto-calc" />
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="recalc-btn">Recalculate</button>
+          <button type="submit" id="save-btn">Save Settings</button>
+        </div>
+      </form>
+    </section>
+
+    <hr />
+
+    <section>
+      <h2>Where we are</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Paid so far (repay + overpay)</h3>
+          <p>£<span id="paid_so_far">0</span></p>
+        </div>
+        <div class="card">
+          <h3>Estimated remaining balance</h3>
+          <p>£<span id="balance_left">0</span></p>
+        </div>
+        <div class="card">
+          <h3>Estimated months remaining</h3>
+          <p><span id="months_left">0</span></p>
+        </div>
+        <div class="card">
+          <h3>Monthly payment used</h3>
+          <p>£<span id="payment_used">0</span></p>
+        </div>
+      </div>
+
+      <p class="muted" id="calc_note"></p>
+    </section>
+  </div>
+
+  <script src="mortgage.js"></script>
+</body>
+</html>
