@@ -242,6 +242,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   await loadPayments();
-  await loadSettings();
-  recalcFromForm();
+await loadSettings();
+recalcFromForm();
+
+// Realtime updates: re-run calculations when payments change
+supabase
+  .channel("payments-changes")
+  .on(
+    "postgres_changes",
+    { event: "*", schema: "public", table: "payments" },
+    async () => {
+      await loadPayments();
+      recalcFromForm();
+    }
+  )
+  .subscribe();
+
 });
