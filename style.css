@@ -1,3 +1,5 @@
+/* style.css */
+
 /* Simple, dark-mode modern look */
 body {
   background-color: #1e1e1e;
@@ -53,6 +55,20 @@ button:hover {
   background-color: #3c6fd6;
 }
 
+/* Delete buttons in table */
+.delete-btn {
+  background-color: transparent;
+  border: 1px solid #555;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #e0e0e0;
+}
+
+.delete-btn:hover {
+  border-color: #888;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -83,7 +99,7 @@ hr {
   margin: 0.3rem 0;
 }
 
-
+/* ---- Pie chart styles ---- */
 .chart-wrap {
   display: flex;
   justify-content: center;
@@ -91,8 +107,8 @@ hr {
 }
 
 .chart-card {
-  width: 320px;
-  height: 220px;
+  width: 360px;
+  height: 260px;
   padding: 1rem;
   background: #222;
   border: 1px solid #444;
@@ -100,6 +116,7 @@ hr {
   box-shadow: 0 0 10px rgba(0,0,0,0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  display: flex;
 }
 
 .chart-card:hover {
@@ -116,4 +133,3 @@ hr {
   width: 100% !important;
   height: 100% !important;
 }
-
