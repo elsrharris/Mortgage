@@ -32,18 +32,93 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Modal elements not found", { confirmModal, cancelDeleteBtn, confirmDeleteBtn });
   }
 
-  let pendingDeleteId = null;
+  // -----------------------------
+  // Sorting (clickable headers)
+  // -----------------------------
+  const sortState = {
+    key: "date",
+    dir: "desc", // default newest first
+  };
 
-  function openDeleteModal(id) {
-    console.log("Opening delete modal for id:", id);
-    pendingDeleteId = id;
-    confirmModal.classList.remove("hidden");
+  // We'll keep the latest loaded payments here so header clicks can re-render
+  let currentPayments = [];
+
+  function sortedPayments(list) {
+    const arr = [...(list || [])];
+
+    arr.sort((a, b) => {
+      let A = a?.[sortState.key];
+      let B = b?.[sortState.key];
+
+      if (sortState.key === "date") {
+        // keep blank dates at bottom
+        const aHas = A && String(A).trim();
+        const bHas = B && String(B).trim();
+        if (!aHas && !bHas) return 0;
+        if (!aHas) return 1;
+        if (!bHas) return -1;
+
+        A = new Date(A).getTime();
+        B = new Date(B).getTime();
+      } else if (sortState.key === "amount") {
+        A = Number(A ?? 0);
+        B = Number(B ?? 0);
+      } else {
+        A = String(A ?? "").toLowerCase();
+        B = String(B ?? "").toLowerCase();
+      }
+
+      if (A < B) return sortState.dir === "asc" ? -1 : 1;
+      if (A > B) return sortState.dir === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    return arr;
   }
 
-  function closeDeleteModal() {
-    pendingDeleteId = null;
-    confirmModal.classList.add("hidden");
-  }
+  function wireUpHeaderSorting() {
+  const headers = document.querySelectorAll("th[data-sort]");
+  if (!headers.length) return;
+
+  headers.forEach((th) => {
+    th.style.cursor = "pointer";
+
+    th.addEventListener("click", () => {
+      const key = th.dataset.sort;
+
+      if (sortState.key === key) {
+        sortState.dir = sortState.dir === "asc" ? "desc" : "asc";
+      } else {
+        sortState.key = key;
+        sortState.dir = key === "date" ? "desc" : "asc";
+      }
+
+      updateSortIndicators();
+      renderPayments(currentPayments);
+    });
+  });
+
+  // Set arrows on initial load
+  updateSortIndicators();
+}
+
+  function updateSortIndicators() {
+  const headers = document.querySelectorAll("th[data-sort]");
+
+  headers.forEach((th) => {
+    const key = th.dataset.sort;
+
+    // Remove any existing arrows
+    th.innerHTML = th.textContent.replace(/[\u25B2\u25BC]/g, "").trim();
+
+    if (key === sortState.key) {
+      const arrow = sortState.dir === "asc" ? " ▲" : " ▼";
+      th.innerHTML = th.textContent + arrow;
+    }
+  });
+}
+
+
 
   // Expand chart on click (adds/removes .expanded class from CSS)
   if (chartCard) {
@@ -56,23 +131,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     const { data, error } = await supabase
       .from("payments")
       .select("*")
-      .order("date", { ascending: true });
+      // ✅ default newest first from DB
+      .order("date", { ascending: false });
 
     if (error) {
       console.error("Error loading payments:", error);
       return;
     }
 
-    renderPayments(data || []);
+    currentPayments = data || [];
+    renderPayments(currentPayments);
   }
 
   function renderPayments(payments) {
     paymentList.innerHTML = "";
 
+    // ✅ apply current sort (default date desc)
+    const displayPayments = sortedPayments(payments);
+
     let totalE = 0;
     let totalZ = 0;
 
-    payments.forEach((p) => {
+    displayPayments.forEach((p) => {
       const row = document.createElement("tr");
 
       row.innerHTML = `
@@ -187,6 +267,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     openDeleteModal(id);
   });
 
+  let pendingDeleteId = null;
+
+  function openDeleteModal(id) {
+    console.log("Opening delete modal for id:", id);
+    pendingDeleteId = id;
+    confirmModal.classList.remove("hidden");
+  }
+
+  function closeDeleteModal() {
+    pendingDeleteId = null;
+    confirmModal.classList.add("hidden");
+  }
+
   // Modal button handlers
   cancelDeleteBtn.addEventListener("click", () => {
     closeDeleteModal();
@@ -219,6 +312,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       closeDeleteModal();
     }
   });
+
+  // Wire up sorting once the DOM is ready
+  wireUpHeaderSorting();
 
   loadPayments();
 });
