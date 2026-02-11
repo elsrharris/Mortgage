@@ -250,3 +250,14 @@ hr {
   font-size: 0.9rem;
 }
 
+
+th[data-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+th[data-sort]:hover {
+  opacity: 0.8;
+}
+
+
