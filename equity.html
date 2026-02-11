@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Equity</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🏡 Equity</h1>
+
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Payments</a>
+      <a href="mortgage.html" class="nav-link">Mortgage</a>
+      <a href="equity.html" class="nav-link active">Equity</a>
+    </nav>
+
+    <section>
+      <h2>Current estimate</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Property value</h3>
+          <p>£<span id="property_value">0</span></p>
+        </div>
+        <div class="card">
+          <h3>Mortgage balance</h3>
+          <p>£<span id="mortgage_balance">0</span></p>
+        </div>
+        <div class="card">
+          <h3>Total equity</h3>
+          <p>£<span id="total_equity">0</span></p>
+        </div>
+        <div class="card">
+          <h3>LTV</h3>
+          <p><span id="ltv">0</span>%</p>
+        </div>
+      </div>
+
+      <p class="muted" id="equity_note"></p>
+    </section>
+
+    <hr />
+
+    <section>
+      <h2>Log a property value</h2>
+      <form id="equity-form" class="settings-grid">
+        <div class="form-group">
+          <label for="valuation_date">Valuation date</label>
+          <input type="date" id="valuation_date" />
+        </div>
+
+        <div class="form-group">
+          <label for="propertyValue">Property value (£)</label>
+          <input type="number" id="propertyValue" step="0.01" required />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Save valuation</button>
+        </div>
+      </form>
+    </section>
+
+    <hr />
+
+    <section id="history">
+      <h2>Valuation history</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Value (£)</th>
+          </tr>
+        </thead>
+        <tbody id="equity-list"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="equity.js"></script>
+</body>
+</html>
