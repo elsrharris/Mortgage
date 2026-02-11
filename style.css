@@ -210,3 +210,47 @@ hr {
   .form-actions { flex-direction: column; }
 }
 
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #2a2a2a;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #444;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.secondary-btn {
+  background: #444;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.danger-btn {
+  background: #d9534f;
+  border: none;
+  padding: 0.
+
