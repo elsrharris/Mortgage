@@ -3,6 +3,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const SUPABASE_URL = "https://spraufetfcpwajuqrwyr.supabase.co";
   const SUPABASE_KEY = "sb_publishable_3mlUdheuqY6ycpX3InNQGw_iM1f4R-Y";
 
+  // Guard: make sure Supabase loaded
+  if (!window.supabase?.createClient) {
+    console.error("Supabase client library not loaded. Check the <script src=...supabase-js@2> tag.");
+    return;
+  }
+
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   const form = document.getElementById("payment-form");
@@ -21,9 +27,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cancelDeleteBtn = document.getElementById("cancelDelete");
   const confirmDeleteBtn = document.getElementById("confirmDelete");
 
+  // Guard: modal elements exist
+  if (!confirmModal || !cancelDeleteBtn || !confirmDeleteBtn) {
+    console.error("Modal elements not found", { confirmModal, cancelDeleteBtn, confirmDeleteBtn });
+  }
+
   let pendingDeleteId = null;
 
   function openDeleteModal(id) {
+    console.log("Opening delete modal for id:", id);
     pendingDeleteId = id;
     confirmModal.classList.remove("hidden");
   }
@@ -118,8 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               callbacks: {
                 label: (ctx) => {
                   const value = Number(ctx.raw || 0);
-                  const pct =
-                    total > 0 ? ((value / total) * 100).toFixed(1) : "50.0";
+                  const pct = total > 0 ? ((value / total) * 100).toFixed(1) : "50.0";
                   const pounds = total > 0 ? `£${value.toFixed(2)}` : "";
                   return `${ctx.label}: ${pounds} (${pct}%)`;
                 },
@@ -167,10 +178,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadPayments();
   });
 
-  // Click delete button -> open confirmation modal
+  // ✅ Click delete button -> open confirmation modal (robust)
   paymentList.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("delete-btn")) return;
-    openDeleteModal(e.target.dataset.id);
+    const btn = e.target.closest(".delete-btn");
+    if (!btn) return;
+
+    const id = btn.dataset.id; // keep as string (works for uuid or numeric)
+    openDeleteModal(id);
   });
 
   // Modal button handlers
